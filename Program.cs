@@ -29,12 +29,13 @@ app.MapGet("/get-questions-with-answers", () => QuestionsWithAnswersRepository.G
 app.MapGet("/get-random-question", () => RandomQuestion.GetRandomQuestion());
 app.MapGet("/get-new-random-question", () => QuestionRepository.GetARandomQuestion());
 app.MapGet("/correct-answer-{id}", (int id) => QuestionRepository.GetCorrectAnswerId(id));
+app.MapPost("/add-results", (ResultsModel ResultsData) => ResultsRepository.InsertResults(ResultsData.UserId, ResultsData.CorrectAnswers, ResultsData.TotalAnswers));
 
-
+// Fetch the leaderboard.
 app.MapGet("/get-leaderboard", () => UserRepository.GetTopUsers(5));
 
 // Make sure username exists.
-app.MapPost("/get-validation", (UsernameModel user) => UserRepository.GetUserExist(user.Username));
+app.MapPost("/get-validation", (UsernameModel data) => UserRepository.GetUserExist(data.Username));
 
 // Get questions.
 app.MapGet("/get-random-questions", () => QuestionRepository.GetRandomQuestions(5));
@@ -44,5 +45,8 @@ app.MapPost("/check-answers", (CheckWithUser data) => CheckAnswer.CheckAnswers(d
 
 // Update user data after a test.
 app.MapPost("/update-user-data", (UpdateUserModel data) => UserRepository.UpdateUserStats(data.Id, data.CorrectAnswers));
+
+// Post request to show the past 5 results in the dashboard.
+app.MapPost("/get-past-results", (UserIdModel data) => ResultsRepository.GetPastResults(data.UserId, 5));
 
 app.Run();

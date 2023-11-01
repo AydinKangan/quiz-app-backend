@@ -22,8 +22,10 @@ public class CheckAnswer
 
             checkedAnswers.Add(new CheckedModel(question: CheckAnswer.Question, isCorrect: isCorrect));
         }
-
+        int totalAnswers = CheckAnswers.Length;
         UserRepository.UpdateUserStats(userId, correctAnswers);
+        ResultsRepository.InsertResults(userId, correctAnswers, totalAnswers);
+
         return checkedAnswers;
 
     }
