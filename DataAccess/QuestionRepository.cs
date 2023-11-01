@@ -112,6 +112,7 @@ public class QuestionRepository
                             }
                         }
 
+                        // shuffle the Answers list --> https://stackoverflow.com/questions/273313/randomize-a-listt
                         cmd.Parameters.Clear();
                     }
                 }

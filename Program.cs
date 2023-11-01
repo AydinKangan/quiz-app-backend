@@ -6,6 +6,7 @@ var frontEndUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
 var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 
+// ----- Look at potential cleaner CORS implementation
 app.Use(async (ctx, next) =>
 {
     ctx.Response.Headers["Access-Control-Allow-Origin"] = frontEndUrl;
@@ -13,7 +14,7 @@ app.Use(async (ctx, next) =>
     if (HttpMethods.IsOptions(ctx.Request.Method))
     {
         ctx.Response.Headers["Access-Control-Allow-Headers"] = "*";
-        ctx.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE";
+        ctx.Response.Headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE";  //-- Get rid of PUT and DELETE ??
 
         await ctx.Response.CompleteAsync();
         return;
@@ -21,8 +22,10 @@ app.Use(async (ctx, next) =>
 
     await next();
 });
+// --------------------------------------------------------------
 
-// Old testing apis.
+
+// Old testing apis.  -- Comment out/get rid of unused endpoints
 app.MapGet("/get-answers", () => AnswerRepository.GetAnswers());
 app.MapGet("/get-questions", () => QuestionRepository.GetAllQuestions());
 app.MapGet("/get-questions-with-answers", () => QuestionsWithAnswersRepository.GetQuestionsWithAnswers());
@@ -37,13 +40,13 @@ app.MapGet("/get-leaderboard", () => UserRepository.GetTopUsers(5));
 // Make sure username exists.
 app.MapPost("/get-validation", (UsernameModel data) => UserRepository.GetUserExist(data.Username));
 
-// Get questions.
+// Get questions.  Gets 5 questions in one request.  
 app.MapGet("/get-random-questions", () => QuestionRepository.GetRandomQuestions(5));
 
-//Check if answers are correct.
+//Check if answers are correct.  Returns all 5 questions and results
 app.MapPost("/check-answers", (CheckWithUser data) => CheckAnswer.CheckAnswers(data.CheckAnswers, data.UserId));
 
-// Update user data after a test.
+// Update user data after a quiz.
 app.MapPost("/update-user-data", (UpdateUserModel data) => UserRepository.UpdateUserStats(data.Id, data.CorrectAnswers));
 
 // Post request to show the past 5 results in the dashboard.
