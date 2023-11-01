@@ -10,12 +10,12 @@ public class UserModel
     public UserModel()
     { }
 
-    public UserModel(int id, string username, int correctAnswers, int attemps)
+    public UserModel(int id, string username, int correctAnswers, int attempts)
     {
         Id = id;
         Username = username;
         CorrectAnswers = correctAnswers;
-        Attempts = attemps;
+        Attempts = attempts;
     }
 
 }
@@ -65,4 +65,17 @@ public class TopUserModel
         CorrectAnswers = correctAnswers;
         Attempts = attemps;
     }
+}
+
+public class UserIdModel
+{
+    public int UserId { get; set; }
+
+
+
+    public UserIdModel(int userId)
+    {
+        UserId = userId;
+    }
+
 }
