@@ -1,5 +1,5 @@
 using DotNetEnv;
-  
+
 Env.Load();
 var frontEndUrl = Environment.GetEnvironmentVariable("FRONTEND_URL");
 
@@ -23,16 +23,6 @@ app.Use(async (ctx, next) =>
     await next();
 });
 // --------------------------------------------------------------
-
-
-// Old testing apis.  -- Comment out/get rid of unused endpoints
-app.MapGet("/get-answers", () => AnswerRepository.GetAnswers());
-app.MapGet("/get-questions", () => QuestionRepository.GetAllQuestions());
-app.MapGet("/get-questions-with-answers", () => QuestionsWithAnswersRepository.GetQuestionsWithAnswers());
-app.MapGet("/get-random-question", () => RandomQuestion.GetRandomQuestion());
-app.MapGet("/get-new-random-question", () => QuestionRepository.GetARandomQuestion());
-app.MapGet("/correct-answer-{id}", (int id) => QuestionRepository.GetCorrectAnswerId(id));
-app.MapPost("/add-results", (ResultsModel ResultsData) => ResultsRepository.InsertResults(ResultsData.UserId, ResultsData.CorrectAnswers, ResultsData.TotalAnswers));
 
 // Fetch the leaderboard.
 app.MapGet("/get-leaderboard", () => UserRepository.GetTopUsers(5));

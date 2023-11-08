@@ -43,7 +43,6 @@ public class UserRepository
             {
                 conn.Open();
 
-                // First, retrieve the user's current statistics.
                 string selectQuery = "SELECT * FROM \"user-list\" WHERE id = @Id";
                 using (var selectCmd = new NpgsqlCommand(selectQuery, conn))
                 {
@@ -53,17 +52,14 @@ public class UserRepository
                         if (reader.Read())
                         {
                             int currentId = reader.GetInt32(0);
-                            int currentCorrectAnswers = reader.GetInt32(2); // Assuming the correct_answers column is the third column (0-based index).
-                            int currentAttempts = reader.GetInt32(3); // Assuming the attempts column is the fourth column (0-based index);
+                            int currentCorrectAnswers = reader.GetInt32(2);
+                            int currentAttempts = reader.GetInt32(3);
 
-                            // Close the reader before executing the UPDATE command.
                             reader.Close();
 
-                            // Update the user's statistics.
                             int newCorrectAnswers = currentCorrectAnswers + correctAnswers;
                             int newAttempts = currentAttempts + 1;
 
-                            // Now, update the user's statistics in the database.
                             string updateQuery = "UPDATE \"user-list\" SET correct_answers = @newCorrectAnswers, attempts = @newAttempts WHERE id = @currentId";
                             using (var updateCmd = new NpgsqlCommand(updateQuery, conn))
                             {
@@ -84,7 +80,7 @@ public class UserRepository
         return "Updated";
     }
 
-     public static List<TopUserModel> GetTopUsers(int numberOfUsers)
+    public static List<TopUserModel> GetTopUsers(int numberOfUsers)
     {
         List<TopUserModel> topUsers = new List<TopUserModel>();
 
@@ -105,8 +101,8 @@ public class UserRepository
                             TopUserModel user = new TopUserModel
                             {
                                 Username = reader.GetString(1),
-                                CorrectAnswers = reader.GetInt32(2), 
-                                Attempts = reader.GetInt32(3) 
+                                CorrectAnswers = reader.GetInt32(2),
+                                Attempts = reader.GetInt32(3)
                             };
                             topUsers.Add(user);
                         }
