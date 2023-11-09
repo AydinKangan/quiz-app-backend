@@ -42,4 +42,5 @@ app.MapPost("/update-user-data", (UpdateUserModel data) => UserRepository.Update
 // Post request to show the past 5 results in the dashboard.
 app.MapPost("/get-past-results", (UserIdModel data) => ResultsRepository.GetPastResults(data.UserId, 5));
 
+app.MapGet("/get-other-groups-questions", () => QuestionRepository.GetOtherGroupsQuestions());
 app.Run();

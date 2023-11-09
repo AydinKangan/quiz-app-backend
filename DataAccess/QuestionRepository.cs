@@ -97,4 +97,15 @@ public class QuestionRepository
 
         return randomQuestions;
     }
+
+
+    public static async Task<List<OtherGroupQuestion>?> GetOtherGroupsQuestions()
+    {
+        HttpClient client = new HttpClient();
+        client.BaseAddress = new Uri("https://kanganquizapi1.azurewebsites.net/get5RandomQuestions");
+
+        var response = await client.GetFromJsonAsync<List<OtherGroupQuestion>>(client.BaseAddress);
+        return response;
+    }
+
 }
