@@ -24,7 +24,7 @@ public class OtherGroupQuestion
 {
     public int? Id { get; set; }
     public string? Question { get; set; }
-    public string? CorrectAnswerId { get; set; }
+    public string? CorrectAnswer { get; set; }
     public List<string>? Options { get; set; }
 
 
@@ -33,11 +33,11 @@ public class OtherGroupQuestion
         // This is required for Entity Framework
     }
 
-    public OtherGroupQuestion(int id, string question, string correct_answer_id, List<string> options)
+    public OtherGroupQuestion(int id, string question, string correctAnswer, List<string> options)
     {
         Id = id;
         Question = question;
-        CorrectAnswerId = correct_answer_id;
-        options = new List<string>();
+        CorrectAnswer = correctAnswer;
+        Options = options;
     }
 }

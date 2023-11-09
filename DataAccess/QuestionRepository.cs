@@ -105,7 +105,35 @@ public class QuestionRepository
         client.BaseAddress = new Uri("https://kanganquizapi1.azurewebsites.net/get5RandomQuestions");
 
         var response = await client.GetFromJsonAsync<List<OtherGroupQuestion>>(client.BaseAddress);
+
+        Random random = new Random();
+
+        if (response != null)
+        {
+            foreach (var question in response)
+            {
+                ShuffleOptions(random, question);
+            }
+        }
+
         return response;
     }
+
+    private static void ShuffleOptions(Random random, OtherGroupQuestion question)
+    {
+        if (question != null && question.Options != null)
+        {
+            int n = question.Options.Count;
+            for (int i = n - 1; i > 0; i--)
+            {
+                int j = random.Next(0, i + 1);
+                // Swap the Options[i] and Options[j]
+                string temp = question.Options[i];
+                question.Options[i] = question.Options[j];
+                question.Options[j] = temp;
+            }
+        }
+    }
+
 
 }
